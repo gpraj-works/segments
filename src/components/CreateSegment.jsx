@@ -1,18 +1,6 @@
 import { useState } from 'react';
 import { SCHEMA_VARIABLES } from '../utils/constant.js';
 
-const Badge = ({ color, title }) => {
-	return (
-		<div
-			className='d-inline-flex align-items-center gap-1'
-			style={{ fontSize: '0.8rem' }}
-		>
-			<em className={`bi bi-circle-fill text-${color || 'secondary'}`}></em>
-			<span>- {title}</span>
-		</div>
-	);
-};
-
 const CreateSegment = ({ onSubmit }) => {
 	const [schema, setSchema] = useState([]);
 	const [segmentName, setSegmentName] = useState('');
@@ -27,8 +15,10 @@ const CreateSegment = ({ onSubmit }) => {
 	};
 
 	const handleSubmit = () => {
-		if (!segmentName.length) {
-			alert('segment empty');
+		if (!segmentName.length || !schema.length) {
+			setSegmentName(null);
+			setSelected(null);
+			return false;
 		}
 
 		onSubmit({
@@ -56,12 +46,9 @@ const CreateSegment = ({ onSubmit }) => {
 
 		return (
 			<div className='d-flex align-items-center gap-2 mb-3'>
-				<span
-					className={`bi bi-circle-fill ${color}`}
-					style={{ fontSize: '0.8rem' }}
-				></span>
+				<span className={`bi bi-circle-fill ${color} fs-8`}></span>
 				<select
-					className={`form-select ${err ? 'border-danger' : ''}`}
+					className={`form-select ${err ? 'is-invalid' : ''}`}
 					defaultValue={value}
 					onChange={(e) => updateSchema(e.target.value, value)}
 				>
@@ -87,11 +74,13 @@ const CreateSegment = ({ onSubmit }) => {
 					</label>
 					<input
 						type='text'
-						className='form-control'
+						className={`form-control ${
+							segmentName === null ? 'is-invalid' : ''
+						}`}
 						id='segmentName'
 						placeholder='Ex: last_10_days'
 						onChange={(e) => setSegmentName(e.target.value)}
-						value={segmentName}
+						value={!segmentName ? '' : segmentName}
 					/>
 				</div>
 				<p className='mb-3'>
@@ -105,9 +94,9 @@ const CreateSegment = ({ onSubmit }) => {
 					<SelectedSchema value={item} key={index} />
 				))}
 				<div className='d-flex align-items-center gap-2'>
-					<span className='bi bi-circle-fill text-secondary'></span>
+					<span className='bi bi-circle-fill text-secondary fs-8'></span>
 					<select
-						className={`form-select ${selected === null && 'border-danger'}`}
+						className={`form-select ${selected === null && 'is-invalid'}`}
 						onChange={(e) => setSelected(e.target.value)}
 					>
 						{!selected && (
@@ -138,6 +127,15 @@ const CreateSegment = ({ onSubmit }) => {
 				</button>
 				<button className='btn btn-outline-danger'>Cancel</button>
 			</div>
+		</div>
+	);
+};
+
+const Badge = ({ color, title }) => {
+	return (
+		<div className='d-inline-flex align-items-center gap-1 fs-8'>
+			<em className={`bi bi-circle-fill text-${color || 'secondary'}`}></em>
+			<span>- {title}</span>
 		</div>
 	);
 };

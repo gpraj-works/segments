@@ -1,4 +1,3 @@
-// change the theme
 $theme-colors: (
 	'primary': #14b8a6,
 	'secondary': #6b7280,
@@ -9,9 +8,13 @@ $theme-colors: (
 	'dark': #111827,
 );
 
-// Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';
 
-.form-control:focus, .form-select:focus {
+.form-control:focus,
+.form-select:focus {
 	box-shadow: 0 0 0 0.1rem rgba(24, 147, 253, 0.1) !important;
+}
+
+.fs-8 {
+	font-size: 0.8rem;
 }

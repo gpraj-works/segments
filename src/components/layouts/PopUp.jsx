@@ -1,5 +1,5 @@
 const PopUp = ({ children }) => {
-	return <div className='offcanvas offcanvas-end show'>{children}</div>;
+	return <div className='offcanvas offcanvas-end show' data-bs-backdrop="static">{children}</div>;
 };
 
 const PopUpHeader = ({ children }) => {
